@@ -1,0 +1,4 @@
+---
+
+- name: Write environment variables required by {{ rails_app_user }} to disk
+  template: src=rails_app_env_variables.j2 dest={{ rails_app_dir }}/.env owner={{ rails_app_user }} group={{ rails_app_user }} mode=0400

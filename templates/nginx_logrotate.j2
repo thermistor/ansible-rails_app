@@ -1,0 +1,10 @@
+{{ nginx_log_dir }}/*.log {
+  daily
+  missingok
+  rotate 50
+  compress
+  delaycompress
+  copytruncate
+  notifempty
+  create 664 root root
+}

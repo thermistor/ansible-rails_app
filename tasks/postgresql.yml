@@ -1,0 +1,24 @@
+---
+
+# NOTE: Must happen before db that needs it is created, as feature is copied from template1.
+#       Can test if worked with: select uuid_generate_v4();
+- name: Add uuid-ossp postgresql extension to template1 so it gets copied to our db
+  shell: sudo -u postgres -i psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+
+- name: Setup postgresql user for the {{ rails_app_shortname }} rails app
+  postgresql_user: name={{ rails_app_db_user }} password={{ rails_app_db_password }} role_attr_flags=CREATEDB,NOSUPERUSER
+  when: rails_app_db_provision
+
+- name: Create database for app
+  postgresql_db: name={{ rails_app_db_name }} owner={{ rails_app_db_user }}
+  when: rails_app_db_provision
+
+- name: Write the database.yml
+  template: src=database.yml.j2 dest={{ rails_app_dir }}/config/database.yml owner={{ rails_app_user }} group={{ rails_app_user }} mode=0440
+  tags:
+    - security
+
+- name: Setup the .pgpass file for rails_app_db_user
+  template: src=pgpass.j2 dest=/home/{{ rails_app_user }}/.pgpass owner={{ rails_app_user }} group={{ rails_app_user }} mode=0600
+  tags:
+    - security

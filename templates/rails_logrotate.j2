@@ -1,0 +1,10 @@
+{{ rails_app_dir }}/log/*.log {
+  daily
+  missingok
+  rotate 50
+  compress
+  delaycompress
+  copytruncate
+  notifempty
+  create 664 {{ rails_app_user }} {{ rails_app_user }}
+}

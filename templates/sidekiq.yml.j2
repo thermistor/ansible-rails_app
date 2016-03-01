@@ -1,0 +1,6 @@
+---
+:logfile: ./log/sidekiq.log
+:concurrency: {{ sidekiq_concurrency | default(7) }}
+:queues:
+  - default
+  - mailers

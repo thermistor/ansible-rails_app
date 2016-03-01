@@ -1,0 +1,18 @@
+---
+
+- name: Add user for {{ rails_app_user }}
+  user: name={{ rails_app_user }} shell=/bin/bash
+
+- name: Install the authorized keys for {{ rails_app_shortname }} deployers
+  authorized_key:
+    user: "{{ rails_app_user }}"
+    key: "{{ item }}"
+  with_items: rails_app_deployer_keys
+  tags:
+    - security
+
+- name: Add .bash_profile for {{ rails_app_user }} so that RAILS_ENV always set
+  template: src=bash_profile dest=/home/{{ rails_app_user}}/.bash_profile owner={{ rails_app_user }} group={{ rails_app_user }} mode=0644
+
+- name: Add .gitconfig for {{ rails_app_user }}
+  copy: src=gitconfig dest=~{{ rails_app_user }}/.gitconfig owner={{ rails_app_user }} group={{ rails_app_user }} mode=0644

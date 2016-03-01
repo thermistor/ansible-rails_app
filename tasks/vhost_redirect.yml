@@ -1,0 +1,16 @@
+---
+
+- name: Install the vhost redirect(s) for {{ rails_app_host }}
+  template: src=vhost_redirect.j2
+            dest=/etc/nginx/sites-available/{{ rails_app_host }}_redirect
+            mode=0644
+  notify:
+    - restart nginx
+
+- name: Enable the {{ rails_app_shortname }} virtual host redirects
+  file: path=/etc/nginx/sites-enabled/{{ rails_app_host }}_redirect
+        src=/etc/nginx/sites-available/{{ rails_app_host }}_redirect
+        state=link
+  notify:
+    - restart nginx
+

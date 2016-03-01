@@ -1,0 +1,19 @@
+# dropped off by ansible, edit in ansible, not here ...
+
+# use existing profile
+if [ -f "$HOME/.profile" ]; then
+  . "$HOME/.profile"
+fi
+
+# support --binstubs for bundler
+if [ -d "{{ rails_app_dir }}/bin" ] ; then
+    export PATH="{{ rails_app_dir }}/bin:$PATH"
+fi
+
+# default editor, -w means don't wrap, and -z means it can be suspended
+export EDITOR="/usr/bin/nano -w -z"
+
+# view rails logs in technicolor
+export LESS='-R'
+
+export RAILS_ENV={{ env }}

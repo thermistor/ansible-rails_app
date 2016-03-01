@@ -1,0 +1,38 @@
+---
+- name: Install package dependencies for {{ rails_app_shortname }}
+  apt: pkg={{ item }}
+  with_items: rails_app_pkg_dependencies
+
+- include: rails_app_user.yml
+  tags:
+    - rails_app_user
+
+- include: deploy.yml
+  tags:
+    - deploy
+
+- include: vhost.yml
+  tags:
+    - vhost
+
+- include: vhost_redirect.yml
+  tags:
+    - vhost
+
+- include: configure.yml
+  tags:
+    - security
+
+- include: postgresql.yml
+  tags:
+    - postgres
+  when: rails_app_db_adapter == 'postgresql'
+
+# - include: sidekiq.yml
+#   tags:
+#     - sidekiq
+
+- include: logrotate.yml
+  tags:
+    - logs
+  when: rails_app_log_rotation
