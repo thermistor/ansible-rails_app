@@ -4,14 +4,6 @@
   command: openssl dhparam -out /etc/ssl/certs/dhparam.pem 4096 creates=/etc/ssl/certs/dhparam.pem
   when: rails_app_enable_https
 
-- name: Copy the ssl cert into place
-  copy: src={{ inventory_hostname }}.crt dest=/etc/ssl/certs/{{ inventory_hostname }}.crt owner=root group=root mode=0645
-  when: rails_app_enable_https
-
-- name: Copy the ssl key into place
-  copy: src={{ inventory_hostname }}.key dest=/etc/ssl/private/{{ inventory_hostname }}.key owner=root group=ssl-cert mode=0640
-  when: rails_app_enable_https
-
 - name: Install the vhost for {{ rails_app_shortname }}
   template: src=vhost.j2
             dest=/etc/nginx/sites-available/{{ rails_app_host }}

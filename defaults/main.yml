@@ -17,6 +17,9 @@ rails_app_site_aliases:
   - "www.{{  rails_app_site }}"
 rails_app_enable_https: False
 
+rails_app_ssl_cert: /etc/ssl/certs/{{ inventory_hostname }}.crt
+rails_app_ssl_cert_key: /etc/ssl/private/{{ inventory_hostname }}.key;
+
 rails_app_shortname: sample_app
 rails_app_base_dir: /srv/www/{{ rails_app_production_site }}
 rails_app_dir: "{{ rails_app_base_dir }}/{{ rails_app_shortname }}"

@@ -14,6 +14,7 @@
 - name: Add .bash_profile for {{ rails_app_user }} so that RAILS_ENV always set
   template: src=bash_profile dest=/home/{{ rails_app_user}}/.bash_profile owner={{ rails_app_user }} group={{ rails_app_user }} mode=0644
 
+# from https://gist.github.com/maxim/871e611d4bc02c633c67
 - name: Ensure github.com is a known host for {{ rails_app_user }}
   lineinfile:
     dest: ~{{ rails_app_user }}/.ssh/known_hosts
