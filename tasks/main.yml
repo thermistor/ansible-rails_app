@@ -28,9 +28,10 @@
     - postgres
   when: rails_app_db_adapter == 'postgresql'
 
-# - include: sidekiq.yml
-#   tags:
-#     - sidekiq
+- include: sidekiq.yml
+  tags:
+    - sidekiq
+  when: rails_app_sidekiq
 
 - include: logrotate.yml
   tags:
