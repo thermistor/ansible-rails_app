@@ -3,22 +3,43 @@
 # NOTE: Must happen before db that needs it is created, as feature is copied from template1.
 #       Can test if worked with: select uuid_generate_v4();
 - name: Add uuid-ossp postgresql extension to template1 so it gets copied to our db
-  shell: sudo -u postgres -i psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+  shell: psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+  become_user: postgres
+  when: rails_app_db_provision
 
 - name: Setup postgresql user for the {{ rails_app_shortname }} rails app
   postgresql_user: name={{ rails_app_db_user }} password={{ rails_app_db_password }} role_attr_flags=CREATEDB,NOSUPERUSER
+  become_user: postgres
   when: rails_app_db_provision
 
 - name: Create database for app
   postgresql_db: name={{ rails_app_db_name }} owner={{ rails_app_db_user }}
+  become_user: postgres
   when: rails_app_db_provision
 
 - name: Write the database.yml
-  template: src=database.yml.j2 dest={{ rails_app_dir }}/config/database.yml owner={{ rails_app_user }} group={{ rails_app_user }} mode=0440
+  template: src=database.postgresql.yml.j2 dest={{ rails_app_dir }}/config/database.yml owner={{ rails_app_user }} group={{ rails_app_user }} mode=0440
   tags:
     - security
 
 - name: Setup the .pgpass file for rails_app_db_user
   template: src=pgpass.j2 dest=/home/{{ rails_app_user }}/.pgpass owner={{ rails_app_user }} group={{ rails_app_user }} mode=0600
+  when: not rails_app_db_socket
   tags:
     - security
+
+- name: If using unix sockets ensure app user can connect through pgbouncer to a unix socket
+  lineinfile:
+    dest: /etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+    line: 'local   {{ rails_app_db_name }}       {{ rails_app_db_user }}                                     trust'
+    insertafter: '# "local" is for Unix domain socket connections only'
+  when: rails_app_db_socket is defined
+  register: pg_hba
+
+- name: restart postgres immediately when pg_hba has changed so auth works for later commands
+  service: name=postgresql state=restarted
+  when: pg_hba.changed
+
+- name: restart pgbouncer immediately when pg_hba has changed so auth works for later commands
+  service: name=pgbouncer state=restarted
+  when: pg_hba.changed

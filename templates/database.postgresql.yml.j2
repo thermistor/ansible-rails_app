@@ -1,10 +1,6 @@
 {{ env }}:
-  adapter: {{ rails_app_db_adapter }}
-{% if rails_app_db_adapter == 'mysql2' %}
-  encoding: utf8
-{% elif rails_app_db_adapter == 'postgresql' %}
+  adapter: postgresql
   encoding: unicode
-{% endif %}
   database: {{ rails_app_db_name }}
   username: {{ rails_app_db_user }}
   password: {{ rails_app_db_password }}
@@ -14,6 +10,6 @@
 {% endif %}
 {% if rails_app_db_host %}
   host: {{ rails_app_db_host }}
-{% elif rails_app_db_adapter == 'mysql2' %}
-  socket: {{ rails_app_db_socket }}
+{% elif rails_app_db_socket %}
+  host: {{ rails_app_db_socket }}
 {% endif %}

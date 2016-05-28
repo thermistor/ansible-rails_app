@@ -31,6 +31,7 @@ rails_app_git_branch: master
 
 rails_app_db_provision: False
 rails_app_db_adapter: postgresql
+rails_app_db_socket: null
 rails_app_db_host: null
 rails_app_db_port: null
 rails_app_db_name: "{{ rails_app_shortname }}_{{ env }}"
