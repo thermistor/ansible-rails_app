@@ -2,6 +2,7 @@
 
 - name: Add the app path to the /etc/sidekiq.conf
   lineinfile: dest=/etc/sidekiq.conf line={{ rails_app_dir }},1 state=present create=yes
+  when: "'{{ ansible_distribution_release }}' == 'trusty'"
 
 - name: Install the sidekiq.yml config file into the app config dir
   template: src=sidekiq.yml.j2 dest={{ rails_app_dir }}/config/sidekiq.yml owner={{ rails_app_user }} group={{ rails_app_user }} mode=0644
