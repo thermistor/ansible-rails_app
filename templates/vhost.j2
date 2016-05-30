@@ -6,7 +6,7 @@ server {
   listen 80;
   listen [::]:80;
   {% endif %}
-  server_name {{ inventory_hostname }};
+  server_name {{ rails_app_site }} {{ rails_app_site_aliases|join(' ') }};
 
   {% if rails_app_enable_https %}
   # based on https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html and
@@ -29,8 +29,8 @@ server {
 
   add_header Strict-Transport-Security "max-age=31536000";
 
-  if ( $host != '{{ inventory_hostname }}' ) {
-   rewrite ^ https://{{ inventory_hostname }}$request_uri? permanent;
+  if ( $host != '{{ rails_app_site }}' ) {
+   rewrite ^ https://{{ rails_app_site }}$request_uri? permanent;
   }
 
   {% endif %}
@@ -50,8 +50,7 @@ server {
   passenger_enabled on;
   passenger_app_env {{ env }};
 
-  access_log /var/log/nginx/{{ rails_app_shortname }}-access.log;
-  error_log  /var/log/nginx/{{ rails_app_shortname }}-error.log;
+  {{ rails_app_nginx_vhost_custom }}
 
   location / {
     if (-f $document_root/maintenance.html) {
@@ -81,5 +80,8 @@ server {
     access_log off;
     break;
   }
+
+  access_log /var/log/nginx/{{ rails_app_shortname }}-access.log;
+  error_log  /var/log/nginx/{{ rails_app_shortname }}-error.log;
 
 }
