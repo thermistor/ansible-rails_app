@@ -158,5 +158,5 @@ galaxy_info:
 dependencies:
   - { role: ruby, ruby_major_minor: 2.3, ruby_version: 2.3.1, tags: ['ruby'] }
   - { role: thermistor.passenger, tags: ['passenger'], passenger_app_path: "{{ rails_app_base_dir }}", passenger_user: "{{ rails_app_user }}" }
-  - { role: thermistor.nginx, tags: ['nginx'], nginx_source_version: 1.10.0, monit_protection: false, openssl_version: "1.0.2h" }
+  - { role: thermistor.nginx, tags: ['nginx'], nginx_source_version: 1.10.1, monit_protection: false, openssl_version: "1.0.2h" }
   - { role: thermistor.nginx_vhost_undefined }
