@@ -42,4 +42,4 @@
 
 - name: restart pgbouncer immediately when pg_hba has changed so auth works for later commands
   service: name=pgbouncer state=restarted
-  when: pg_hba.changed
+  when: pg_hba.changed|bool and rails_app_db_enable_pgbouncer|bool

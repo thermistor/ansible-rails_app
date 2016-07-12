@@ -39,6 +39,7 @@ rails_app_db_port: null
 rails_app_db_name: "{{ rails_app_shortname }}_{{ env }}"
 rails_app_db_user: "{{ rails_app_user }}"
 rails_app_db_pool: 5
+rails_app_db_enable_pgbouncer: False
 
 rails_app_sidekiq: False
 rails_app_log_rotation: True
