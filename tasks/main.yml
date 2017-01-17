@@ -1,7 +1,7 @@
 ---
 - name: Install package dependencies for {{ rails_app_shortname }}
   apt: pkg={{ item }}
-  with_items: rails_app_pkg_dependencies
+  with_items: "{{ rails_app_pkg_dependencies }}"
 
 - include: rails_app_user.yml
   tags:
