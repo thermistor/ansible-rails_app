@@ -28,6 +28,11 @@
     - postgres
   when: rails_app_db_adapter == 'postgresql'
 
+- include: mysql.yml
+  tags:
+    - mysql
+  when: rails_app_db_adapter == 'mysql'
+
 - include: sidekiq.yml
   tags:
     - sidekiq
