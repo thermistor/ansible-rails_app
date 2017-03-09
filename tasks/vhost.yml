@@ -6,14 +6,14 @@
 
 - name: Install the vhost for {{ rails_app_shortname }}
   template: src=vhost.j2
-            dest=/etc/nginx/sites-available/{{ rails_app_host }}
+            dest=/etc/nginx/sites-available/{{ rails_app_site }}
             mode=0644
   notify:
     - restart nginx
 
-- name: Enable the {{ rails_app_host }} virtual host
-  file: path=/etc/nginx/sites-enabled/{{ rails_app_host }}
-        src=/etc/nginx/sites-available/{{ rails_app_host }}
+- name: Enable the {{ rails_app_site }} virtual host
+  file: path=/etc/nginx/sites-enabled/{{ rails_app_site }}
+        src=/etc/nginx/sites-available/{{ rails_app_site }}
         state=link
   notify:
     - restart nginx

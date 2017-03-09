@@ -30,7 +30,7 @@
 
 - name: If using unix sockets ensure app user can connect through pgbouncer to a unix socket
   lineinfile:
-    dest: /etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+    dest: /etc/postgresql/{{ rails_app_postgresql_version }}/main/pg_hba.conf
     line: 'local   {{ rails_app_db_name }}       {{ rails_app_db_user }}                                     trust'
     insertafter: '# "local" is for Unix domain socket connections only'
   when: rails_app_db_socket is defined

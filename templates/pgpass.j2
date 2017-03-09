@@ -1,1 +1,1 @@
-localhost:5432:{{ rails_app_db_name }}:{{ rails_app_user }}:{{ rails_app_db_password }}
+localhost:{{ rails_app_db_port or '5432' }}:{{ rails_app_db_name }}:{{ rails_app_user }}:{{ rails_app_db_password }}
