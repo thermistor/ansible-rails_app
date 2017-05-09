@@ -12,7 +12,6 @@ rails_app_pkg_dependencies: []
 
 rails_app_production_site: railstutorial.com
 rails_app_site: "{{ rails_app_production_site if env == 'production' else (env ~ '.' ~ rails_app_production_site) }}"
-rails_app_host: "{{ inventory_hostname }}"
 rails_app_site_aliases:
   - "www.{{  rails_app_site }}"
 rails_app_enable_https: False
