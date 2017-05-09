@@ -54,6 +54,12 @@ server {
 
   {{ rails_app_nginx_vhost_custom }}
 
+  # allow letsencrypt renewal script to work
+  location ~ /\.well-known {
+    allow all;
+    break;
+  }
+
   location / {
     if (-f $document_root/maintenance.html) {
       return 503;
