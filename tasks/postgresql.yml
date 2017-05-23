@@ -33,7 +33,7 @@
     dest: /etc/postgresql/{{ rails_app_postgresql_version }}/main/pg_hba.conf
     line: 'local   {{ rails_app_db_name }}       {{ rails_app_db_user }}                                     trust'
     insertafter: '# "local" is for Unix domain socket connections only'
-  when: rails_app_db_socket is defined
+  when: rails_app_db_enable_pgbouncer and rails_app_db_socket
   register: pg_hba
 
 - name: restart postgres immediately when pg_hba has changed so auth works for later commands
