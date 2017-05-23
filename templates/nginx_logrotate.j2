@@ -1,7 +1,7 @@
-{{ rails_app_log_dir }}/*.log {
+{{ rails_app_nginx_log_dir }}/*.log {
   daily
   missingok
-  rotate 50
+  rotate {{ rails_app_nginx_logrotate_rotations }}
   compress
   delaycompress
   copytruncate
