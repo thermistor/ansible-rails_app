@@ -1,5 +1,7 @@
 server {
   listen 80;
+  listen [::]:80;
+
   {% if rails_app_enable_https %}
   server_name {{ rails_app_site }} {{ rails_app_site_aliases|join(' ') }};
   {% else %}
