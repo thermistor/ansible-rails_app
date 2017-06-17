@@ -2,7 +2,3 @@
 
 - name: Install logrotate config for rails logs
   template: src=rails_logrotate.j2 dest=/etc/logrotate.d/{{ rails_app_shortname }} owner=root group=root mode=0644
-
-- name: Install logrotate config for nginx logs
-  template: src=nginx_logrotate.j2 dest=/etc/logrotate.d/nginx owner=root group=root mode=0644
-

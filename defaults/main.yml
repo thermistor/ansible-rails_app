@@ -43,7 +43,5 @@ rails_app_db_enable_pgbouncer: False
 rails_app_sidekiq: False
 rails_app_log_rotation: True
 rails_app_applog_logrotate_rotations: 50
-rails_app_nginx_logrotate_rotations: 50
-rails_app_nginx_log_dir: /var/log/nginx
 
 rails_app_install_irbrc: True
