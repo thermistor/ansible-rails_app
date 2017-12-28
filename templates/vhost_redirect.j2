@@ -2,11 +2,19 @@ server {
   listen 80;
   listen [::]:80;
 
-  {% if rails_app_enable_https %}
+{% if rails_app_enable_https %}
   server_name {{ rails_app_site }} {{ rails_app_site_aliases|join(' ') }};
-  {% else %}
+{% else %}
   server_name {{ rails_app_site_aliases|join(' ') }};
-  {% endif %}
+{% endif %}
+
+  # allow letsencrypt renewal script to work
+  location /.well-known/acme-challenge/ {
+    allow all;
+    access_log /var/log/nginx/{{ rails_app_shortname }}-acme-access.log;
+    error_log /var/log/nginx/{{ rails_app_shortname }}-acme-error.log;
+    break;
+  }
 
   rewrite ^ {{ 'https' if rails_app_enable_https == True else '$scheme' }}://{{  rails_app_site }}$request_uri? permanent;
 
