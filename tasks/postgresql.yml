@@ -24,7 +24,6 @@
 
 - name: Setup the .pgpass file for rails_app_db_user
   template: src=pgpass.j2 dest=/home/{{ rails_app_user }}/.pgpass owner={{ rails_app_user }} group={{ rails_app_user }} mode=0600
-  when: not rails_app_db_socket and rails_app_db_provision
   tags:
     - security
 

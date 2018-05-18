@@ -17,3 +17,7 @@ export EDITOR="/usr/bin/nano -w -z"
 export LESS='-R'
 
 export RAILS_ENV={{ env }}
+
+{% if rails_app_db_host %}
+export PGHOST={{ rails_app_db_host }}
+{% endif %}
