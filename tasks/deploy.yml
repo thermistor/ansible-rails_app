@@ -16,20 +16,20 @@
        dest={{ rails_app_shortname }}
        version={{ rails_app_git_branch }}
        accept_hostkey=yes
-  when: deploy_exists|failed
+  when: deploy_exists is failed
 
 - name: Move the repo into place as the deployment
   command: mv -fT {{ rails_app_shortname }} {{ rails_app_dir }}
-  when: deploy_exists|failed
+  when: deploy_exists is failed
 
 - name: Fix the deployed code ownership
   file: dest={{ rails_app_dir }} state=directory owner={{ rails_app_user }} group={{ rails_app_user }} recurse=yes
-  when: deploy_exists|failed
+  when: deploy_exists is failed
 
 - name: Make a symlink to current to fake out capistrano-git_deploy
   file: src={{ rails_app_dir }} path={{ rails_app_base_dir }}/current state=link
-  when: deploy_exists|failed
+  when: deploy_exists is failed
 
 - name: make a symlink for convenience
   file: src={{ rails_app_dir }} path=/home/{{ rails_app_user }}/{{ env }} state=link
-  when: deploy_exists|failed
+  when: deploy_exists is failed
