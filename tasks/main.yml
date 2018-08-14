@@ -33,11 +33,6 @@
     - mysql
   when: rails_app_db_adapter == 'mysql'
 
-- include: sidekiq.yml
-  tags:
-    - sidekiq
-  when: rails_app_sidekiq
-
 - include: logrotate.yml
   tags:
     - logs
