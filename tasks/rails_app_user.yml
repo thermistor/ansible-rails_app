@@ -30,4 +30,4 @@
 
 - name: Add .irbrc for {{ rails_app_user }}
   copy: src=irbrc dest=~{{rails_app_user }}/.irbrc owner={{ rails_app_user }} group={{ rails_app_user }} mode=0644
-  when: "{{ rails_app_install_irbrc }}"
+  when: rails_app_install_irbrc

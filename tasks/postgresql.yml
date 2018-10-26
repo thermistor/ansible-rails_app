@@ -1,5 +1,8 @@
 ---
 
+- name: Add python3-psycopg2 package to be able to setup postgresql_user
+  apt: name=python3-psycopg2 state=latest
+
 # NOTE: Must happen before db that needs it is created, as feature is copied from template1.
 #       Can test if worked with: select uuid_generate_v4();
 - name: Add uuid-ossp postgresql extension to template1 so it gets copied to our db
@@ -8,7 +11,7 @@
   when: rails_app_db_provision
 
 - name: Setup postgresql user for the {{ rails_app_shortname }} rails app
-  postgresql_user: name={{ rails_app_db_user }} password={{ rails_app_db_password }} role_attr_flags=CREATEDB,NOSUPERUSER
+  postgresql_user: name={{ rails_app_db_user }} password={{ rails_app_db_encrypted_password }} role_attr_flags=CREATEDB,NOSUPERUSER
   become_user: postgres
   when: rails_app_db_provision
 

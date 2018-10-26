@@ -1,9 +1,7 @@
 ---
 
 - name: Install package dependencies for mysql2 gem
-  apt: pkg={{ item }}
-  with_items:
-    - libmariadbclient-dev
+  apt: name=libmariadbclient-dev state=present
 
 - name: Setup mysql db for the {{ rails_app_user }} rails app
   mysql_db: name={{ rails_app_db_name }} state=present login_user={{ rails_app_mysql_root_user }} login_password={{ rails_app_mysql_root_password }} login_host={{ rails_app_mysql_host }}
