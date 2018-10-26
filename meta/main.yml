@@ -3,7 +3,7 @@ galaxy_info:
   author: Weston Triemstra
   description: Rails app role with Netsign conventions
   company: Netsign
-  license: license (MIT)
+  license: MIT
 
   min_ansible_version: 1.2
 
