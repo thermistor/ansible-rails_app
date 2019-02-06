@@ -1,17 +1,21 @@
 ---
+rails_app_env: production
+
+rails_app_git_repo: ssh://git@github.com/railstutorial/sample_app.git
+rails_app_git_branch: master
 
 # Override in external_vars/
 rails_app_db_password: 'secret'
 rails_app_env_variables: {}
 
-# Override in group_vars/{{ env }}.yml
+# Override in group_vars/{{ rails_app_env }}.yml
 rails_app_deployer_keys: []
 
 # Override these in play_vars or role vars
 rails_app_pkg_dependencies: []
 
 rails_app_production_site: railstutorial.com
-rails_app_site: "{{ rails_app_production_site if env == 'production' else (env ~ '.' ~ rails_app_production_site) }}"
+rails_app_site: "{{ rails_app_production_site if rails_app_env == 'production' else (rails_app_env ~ '.' ~ rails_app_production_site) }}"
 rails_app_site_aliases:
   - "www.{{  rails_app_site }}"
 rails_app_enable_https: False
@@ -27,15 +31,12 @@ rails_app_dir: "{{ rails_app_base_dir }}/{{ rails_app_shortname }}"
 
 rails_app_user: "{{ rails_app_shortname }}"
 
-rails_app_git_repo: ssh://git@github.com/railstutorial/sample_app.git
-rails_app_git_branch: master
-
 rails_app_db_provision: False
 rails_app_db_adapter: postgresql
 rails_app_db_socket: null
 rails_app_db_host: null
 rails_app_db_port: null
-rails_app_db_name: "{{ rails_app_shortname }}_{{ env }}"
+rails_app_db_name: "{{ rails_app_shortname }}_{{ rails_app_env }}"
 rails_app_db_user: "{{ rails_app_user }}"
 rails_app_db_pool: 5
 rails_app_db_enable_pgbouncer: False

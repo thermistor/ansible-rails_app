@@ -50,7 +50,7 @@ server {
 
   root {{ rails_app_dir }}/public;
   passenger_enabled on;
-  passenger_app_env {{ env }};
+  passenger_app_env {{ rails_app_env }};
 
   {{ rails_app_nginx_vhost_custom }}
 

@@ -16,7 +16,7 @@ export EDITOR="/usr/bin/nano -w -z"
 # view rails logs in technicolor
 export LESS='-R'
 
-export RAILS_ENV={{ env }}
+export RAILS_ENV={{ rails_app_env }}
 
 {% if rails_app_db_host %}
 export PGHOST={{ rails_app_db_host }}
