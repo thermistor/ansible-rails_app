@@ -9,6 +9,7 @@
 #       Can test if worked with: select uuid_generate_v4();
 - name: Add uuid-ossp postgresql extension to template1 so it gets copied to our db
   shell: psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+  become: yes
   become_user: postgres
   when: rails_app_db_provision
 
@@ -17,6 +18,7 @@
     name: "{{ rails_app_db_user }}"
     password: "{{ rails_app_db_encrypted_password }}"
     role_attr_flags: CREATEDB,NOSUPERUSER
+  become: yes
   become_user: postgres
   when: rails_app_db_provision
 
@@ -24,6 +26,7 @@
   postgresql_db:
     name: "{{ rails_app_db_name }}"
     owner: "{{ rails_app_db_user }}"
+  become: yes
   become_user: postgres
   when: rails_app_db_provision
 
