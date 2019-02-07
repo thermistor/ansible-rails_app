@@ -2,4 +2,12 @@
 
 - name: restart nginx
   service: name=nginx state=restarted
-  become: yes
+
+- name: restart postgres
+  service: name=postgresql state=restarted
+  listen: 'restart postgres services'
+
+- name: restart pgbouncer
+  service: name=pgbouncer state=restarted
+  when: rails_app_db_enable_pgbouncer|bool
+  listen: 'restart postgres services'
