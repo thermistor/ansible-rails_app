@@ -1,12 +1,18 @@
 ---
 
-- name: Ensure the base directory {{ rails_app_base_dir }} exists
-  file: path={{ rails_app_base_dir }} state=directory owner={{ rails_app_user }} group={{ rails_app_user }} mode=0755
-
 - name: Check if app already deployed
   stat:
     path: "{{ rails_app_dir }}/Gemfile"
   register: deploy
+
+- name: Ensure the base directory {{ rails_app_base_dir }} exists
+  file:
+    path: "{{ rails_app_base_dir }}"
+    state: directory
+    owner: "{{ rails_app_user }}"
+    group: "{{ rails_app_user }}"
+    mode: 0755
+  when: not deploy.stat.exists
 
 # NOTE: disable sudo here so that ssh-agent forwarding to github will work,
 #       be sure to have local .ssh/config setup with 'ForwardAgent yes' for each host
@@ -23,11 +29,19 @@
   when: not deploy.stat.exists
 
 - name: Fix the deployed code ownership
-  file: dest={{ rails_app_dir }} state=directory owner={{ rails_app_user }} group={{ rails_app_user }} recurse=yes
+  file:
+    dest: "{{ rails_app_dir }}"
+    state: directory
+    owner: "{{ rails_app_user }}"
+    group: "{{ rails_app_user }}"
+    recurse: yes
   when: not deploy.stat.exists
 
 - name: Make a symlink to current to fake out capistrano-git_deploy
-  file: src={{ rails_app_dir }} path={{ rails_app_base_dir }}/current state=link
+  file:
+    src: "{{ rails_app_dir }}"
+    path: "{{ rails_app_base_dir }}/current"
+    state: link
   when: not deploy.stat.exists
 
 - name: make a symlink for convenience
