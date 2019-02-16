@@ -8,7 +8,6 @@ server {
 
   # based on https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html and
   # also https://wiki.mozilla.org/Security/Server_Side_TLS
-  ssl                  on;
   ssl_certificate      {{ rails_app_ssl_cert }};
   ssl_certificate_key  {{ rails_app_ssl_cert_key }};
   ssl_dhparam /etc/ssl/certs/dhparam.pem;
@@ -27,7 +26,7 @@ server {
   add_header Strict-Transport-Security "max-age=31536000";
 
   if ( $host != '{{ rails_app_site }}' ) {
-   rewrite ^ https://{{ rails_app_site }}$request_uri? permanent;
+    rewrite ^ https://{{ rails_app_site }}$request_uri? permanent;
   }
 {% else %}
   listen 80;
