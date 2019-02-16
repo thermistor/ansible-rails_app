@@ -15,13 +15,17 @@ rails_app_deployer_keys: []
 rails_app_pkg_dependencies: []
 
 rails_app_production_site: railstutorial.com
-rails_app_site: "{{ rails_app_production_site if rails_app_env == 'production' else (rails_app_env ~ '.' ~ rails_app_production_site) }}"
+# in load-balanced scenario may want this
+rails_app_canonical_site: "{{ rails_app_env ~ '.' ~ rails_app_production_site }}"
+rails_app_site: "{{ rails_app_production_site if rails_app_env == 'production' else rails_app_canonical_site }}"
 rails_app_site_aliases:
   - "www.{{  rails_app_site }}"
 rails_app_enable_https: False
 
 rails_app_ssl_cert: /etc/ssl/certs/{{ inventory_hostname }}.crt
 rails_app_ssl_cert_key: /etc/ssl/private/{{ inventory_hostname }}.key
+
+rails_app_load_balanced: False
 
 rails_app_nginx_vhost_custom: ''
 

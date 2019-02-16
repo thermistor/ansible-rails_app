@@ -16,9 +16,19 @@ server {
     break;
   }
 
-  rewrite ^ {{ 'https' if rails_app_enable_https == True else '$scheme' }}://{{  rails_app_site }}$request_uri? permanent;
+  # load balancer health check
+  location /health {
+    access_log off;
+
+    return 200 "ok\n";
+    add_header Content-Type text/plain;
+    break;
+  }
+
+  location / {
+    rewrite ^ {{ 'https' if rails_app_enable_https == True else '$scheme' }}://{{  rails_app_canonical_site }}$request_uri? permanent;
+  }
 
   # solves http://stackoverflow.com/questions/17524396/400-bad-request-request-header-or-cookie-too-large
   large_client_header_buffers 4 16k;
-
 }
