@@ -16,14 +16,16 @@ server {
     break;
   }
 
+{% if rails_app_vhost_redirect_lbhealth_endpoint %}
   # load balancer health check
-  location /health {
+  location /lbhealth {
     access_log off;
 
     return 200 "ok\n";
     add_header Content-Type text/plain;
     break;
   }
+{% endif %}
 
   location / {
     rewrite ^ {{ 'https' if rails_app_enable_https == True else '$scheme' }}://{{  rails_app_canonical_site }}$request_uri? permanent;

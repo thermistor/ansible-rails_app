@@ -53,13 +53,24 @@ server {
   passenger_enabled on;
   passenger_app_env {{ rails_app_env }};
 
-  {{ rails_app_nginx_vhost_custom }}
+  {{ rails_app_vhost_custom }}
 
-  # allow letsencrypt renewal script to work
+  # allow .well-known discovery to work
   location ~ /\.well-known {
     allow all;
     break;
   }
+
+{% if rails_app_vhost_lbhealth_endpoint %}
+  # load balancer health check
+  location /lbhealth {
+    access_log off;
+
+    return 200 "ok\n";
+    add_header Content-Type text/plain;
+    break;
+  }
+{% endif %}
 
   location / {
     if (-f $document_root/maintenance.html) {

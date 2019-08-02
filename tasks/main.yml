@@ -18,7 +18,7 @@
     - vhost
 
 - include: vhost_redirect.yml
-  when: rails_app_http_redirect
+  when: rails_app_vhost_redirect
   tags:
     - vhost
 
