@@ -18,6 +18,8 @@
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
     mode: 0644
+  tags:
+    - postgres
 
 # from https://gist.github.com/maxim/871e611d4bc02c633c67
 - name: Ensure github.com is a known host for {{ rails_app_user }}
