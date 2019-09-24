@@ -8,6 +8,8 @@ server {
   server_name {{ rails_app_site_aliases|join(' ') }};
 {% endif %}
 
+  root {{ rails_app_dir }}/public;
+
   # allow letsencrypt renewal script to work
   location /.well-known/acme-challenge/ {
     allow all;
