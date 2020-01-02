@@ -6,12 +6,12 @@
     state: present
 
 # NOTE: Must happen before db that needs it is created, as feature is copied from template1.
-#       Can test if worked with: select uuid_generate_v4();
-- name: Add uuid-ossp postgresql extension to template1 so it gets copied to our db
-  shell: psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+#       Can test if worked with: select gen_random_uuid();
+- name: Add pgcrypto extension to template1 so it gets copied to our db
+  shell: psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS "pgcrypto";'
   become: yes
   become_user: postgres
-  when: rails_app_db_provision
+  when: rails_app_db_provision and rails_app_db_pgcrypto
 
 - name: Setup postgresql user for the {{ rails_app_shortname }} rails app
   postgresql_user:
