@@ -6,8 +6,8 @@
 - name: Install the authorized keys for {{ rails_app_shortname }} deployers
   authorized_key:
     user: "{{ rails_app_user }}"
-    key: "{{ item }}"
-  with_items: "{{ rails_app_deployer_keys }}"
+    key: "{{ rails_app_deployer_keys | join('\n') }}"
+    exclusive: True
   tags:
     - security
 
