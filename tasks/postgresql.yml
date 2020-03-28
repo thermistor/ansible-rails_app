@@ -5,14 +5,6 @@
     name: python3-psycopg2
     state: present
 
-# NOTE: Must happen before db that needs it is created, as feature is copied from template1.
-#       Can test if worked with: select gen_random_uuid();
-- name: Add pgcrypto extension to template1 so it gets copied to our db
-  shell: psql -d template1 -c 'CREATE EXTENSION IF NOT EXISTS "pgcrypto";'
-  become: yes
-  become_user: postgres
-  when: rails_app_db_provision and rails_app_db_pgcrypto
-
 - name: Setup postgresql user for the {{ rails_app_shortname }} rails app
   postgresql_user:
     name: "{{ rails_app_db_user }}"
@@ -29,6 +21,14 @@
   become: yes
   become_user: postgres
   when: rails_app_db_provision
+
+- name: Install required extensions
+  postgresql_ext:
+    name: "{{ item }}"
+    db: "{{ rails_app_db_name }}"
+  become: yes
+  become_user: postgres
+  with_items: "{{ rails_app_pg_extensions }}"
 
 - name: Write the database.yml
   template:

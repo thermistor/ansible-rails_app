@@ -40,13 +40,13 @@ rails_app_user: "{{ rails_app_shortname }}"
 
 rails_app_db_provision: False
 rails_app_db_adapter: postgresql
+rails_app_pg_extensions: []
 rails_app_db_socket: null
 rails_app_db_host: null
 rails_app_db_port: null
 rails_app_db_name: "{{ rails_app_shortname }}_{{ rails_app_env }}"
 rails_app_db_user: "{{ rails_app_user }}"
 rails_app_db_pool: 5
-rails_app_db_pgcrypto: False
 rails_app_db_enable_pgbouncer: False
 
 rails_app_log_rotation: True
