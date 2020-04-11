@@ -25,6 +25,7 @@
 - include: configure.yml
   tags:
     - security
+    - envvars
 
 - include: postgresql.yml
   tags:
