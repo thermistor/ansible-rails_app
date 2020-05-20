@@ -26,6 +26,7 @@ rails_app_ssl_cert: /etc/ssl/certs/{{ inventory_hostname }}.crt
 rails_app_ssl_cert_key: /etc/ssl/private/{{ inventory_hostname }}.key
 
 rails_app_vhost_custom: ''
+rails_app_vhost_acao_header: ~
 rails_app_vhost_redirect: True
 
 rails_app_load_balanced: False
