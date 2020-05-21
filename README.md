@@ -5,6 +5,5 @@ An ansible galaxy role for configuring a rails app.
 ## Caveats
 
 - it's opinionated
-- assumes using capistrano-git_deploy
-- ssl certs are created outside of this role
-
+- assumes using `capistrano-git_deploy` gem for deployment
+- ssl certs are created outside of this role, but default paths conform w/ `thermistor.nginx` and `thermistor.acme_sh`
