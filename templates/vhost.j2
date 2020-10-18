@@ -94,8 +94,9 @@ server {
     rewrite ^(.*)$ /maintenance.html break;
   }
 
-  location ~ ^/(assets)/ {
+  location ~ ^/(assets|packs)/ {
     gzip_static on;
+    brotli_static on;
     expires 1y;
     add_header Cache-Control public;
     {% if rails_app_vhost_acao_header %}add_header Access-Control-Allow-Origin {{ rails_app_vhost_acao_header }};{% endif %}
