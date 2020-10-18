@@ -2,7 +2,7 @@
 rails_app_env: production
 
 rails_app_git_repo: ssh://git@github.com/railstutorial/sample_app.git
-rails_app_git_branch: master
+rails_app_git_branch: main
 
 # Override in external_vars/
 rails_app_db_password: 'secret'
@@ -41,6 +41,11 @@ rails_app_dir: "{{ rails_app_base_dir }}/{{ rails_app_shortname }}"
 
 rails_app_user: "{{ rails_app_shortname }}"
 
+rails_app_log_rotation: True
+rails_app_applog_logrotate_rotations: 50
+
+rails_app_install_irbrc: True
+
 rails_app_db_provision: False
 rails_app_db_adapter: postgresql
 rails_app_pg_extensions: []
@@ -50,9 +55,8 @@ rails_app_db_port: null
 rails_app_db_name: "{{ rails_app_shortname }}_{{ rails_app_env }}"
 rails_app_db_user: "{{ rails_app_user }}"
 rails_app_db_pool: 5
+
+# TODO: move these out
 rails_app_db_enable_pgbouncer: False
+rails_app_postgresql_version: 12
 
-rails_app_log_rotation: True
-rails_app_applog_logrotate_rotations: 50
-
-rails_app_install_irbrc: True
