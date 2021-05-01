@@ -94,7 +94,7 @@ server {
     rewrite ^(.*)$ /maintenance.html break;
   }
 
-  location ~ ^/(assets|packs)/ {
+  location ~ ^/(assets|packs|uploads)/ {
     gzip_static on;
     brotli_static on;
     expires 1y;
