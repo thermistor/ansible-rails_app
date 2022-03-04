@@ -58,8 +58,8 @@ server {
 
   # solves http://stackoverflow.com/questions/17524396/400-bad-request-request-header-or-cookie-too-large
   large_client_header_buffers 4 16k;
-  # allow for uploads of up to 20m
-  client_max_body_size 20m;
+  # allow for uploads of up to {{ rails_app_client_max_body_size }}
+  client_max_body_size {{ rails_app_client_max_body_size }};
 
   root {{ rails_app_dir }}/public;
   passenger_enabled on;

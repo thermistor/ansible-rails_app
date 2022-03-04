@@ -30,6 +30,7 @@ rails_app_force_ssl_enabled: False
 rails_app_vhost_custom: ''
 rails_app_vhost_acao_header: ~
 rails_app_vhost_redirect: True
+rails_app_client_max_body_size: 20m
 
 rails_app_load_balanced: False
 rails_app_vhost_lbhealth_endpoint: False
@@ -59,4 +60,3 @@ rails_app_db_pool: 5
 # TODO: move these out
 rails_app_db_enable_pgbouncer: False
 rails_app_postgresql_version: 12
-
