@@ -65,7 +65,7 @@ server {
   passenger_enabled on;
   passenger_app_env {{ rails_app_env }};
 
-  {{ rails_app_vhost_custom }}
+  {{ rails_app_vhost_custom|indent(2) }}
 
   # allow .well-known discovery to work
   location ~ /\.well-known {
