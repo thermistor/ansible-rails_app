@@ -8,6 +8,9 @@ server {
   server_name {{ rails_app_site_aliases|join(' ') }};
 {% endif %}
 
+  more_clear_headers 'Server';
+  more_clear_headers 'X-Powered-By';
+
   root {{ rails_app_dir }}/public;
 
   # allow letsencrypt renewal script to work
