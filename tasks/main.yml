@@ -5,39 +5,39 @@
     name: "{{ rails_app_pkg_dependencies }}"
     state: present
 
-- include: rails_app_user.yml
+- import_tasks: rails_app_user.yml
   tags:
     - rails_app_user
 
-- include: deploy.yml
+- import_tasks: deploy.yml
   tags:
     - deploy
 
-- include: vhost.yml
+- import_tasks: vhost.yml
   tags:
     - vhost
 
-- include: vhost_redirect.yml
+- import_tasks: vhost_redirect.yml
   when: rails_app_vhost_redirect
   tags:
     - vhost
 
-- include: configure.yml
+- import_tasks: configure.yml
   tags:
     - security
     - envvars
 
-- include: postgresql.yml
+- import_tasks: postgresql.yml
   tags:
     - postgres
   when: rails_app_db_adapter == 'postgresql'
 
-- include: mysql.yml
+- import_tasks: mysql.yml
   tags:
     - mysql
   when: rails_app_db_adapter == 'mysql'
 
-- include: logrotate.yml
+- import_tasks: logrotate.yml
   tags:
     - logs
   when: rails_app_log_rotation
