@@ -50,6 +50,9 @@ server {
   server_name {{ rails_app_site }};
 {% endif %}
 
+  # enable APM monitoring tools to report the current queue time
+  proxy_set_header X-Request-Start "t=${msec}";
+
   # TODO: figure out what is setting these already
   # add_header X-Frame-Options DENY;
   # add_header X-Content-Type-Options nosniff;
