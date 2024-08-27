@@ -1,5 +1,7 @@
 ---
 galaxy_info:
+  role_name: rails_app
+  namespace: thermistor
   author: Weston Triemstra
   description: Rails app role with Netsign conventions
   company: Netsign
