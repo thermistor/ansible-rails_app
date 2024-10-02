@@ -119,6 +119,10 @@ server {
     break;
   }
 
+  location ~ \.php {
+    return 404;
+  }
+
   access_log /var/log/nginx/{{ rails_app_shortname }}-access.log;
   error_log  /var/log/nginx/{{ rails_app_shortname }}-error.log;
 

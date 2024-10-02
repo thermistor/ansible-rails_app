@@ -36,10 +36,6 @@ server {
     rewrite ^ {{ 'https' if rails_app_enable_https == True else '$scheme' }}://{{  rails_app_site }}$request_uri? permanent;
   }
 
-  location ~ \.php {
-    return 404;
-  }
-
   # solves http://stackoverflow.com/questions/17524396/400-bad-request-request-header-or-cookie-too-large
   large_client_header_buffers 4 16k;
 }
