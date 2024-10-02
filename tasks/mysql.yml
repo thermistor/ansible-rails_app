@@ -32,4 +32,4 @@
     dest: "{{ rails_app_dir }}/config/database.yml"
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    mode: 0440
+    mode: '0440'

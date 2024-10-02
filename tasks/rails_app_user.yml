@@ -38,7 +38,7 @@
     dest: ~{{ rails_app_user }}/.gitconfig
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    mode: 0644
+    mode: '0644'
 
 - name: Add .irbrc for {{ rails_app_user }}
   copy:
@@ -46,5 +46,5 @@
     dest: ~{{ rails_app_user }}/.irbrc
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    mode: 0644
+    mode: '0644'
   when: rails_app_install_irbrc

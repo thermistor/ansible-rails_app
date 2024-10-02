@@ -47,7 +47,7 @@
     dest: "{{ rails_app_dir }}/config/database.yml"
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    mode: 0440
+    mode: '0440'
   tags:
     - security
 
@@ -57,7 +57,7 @@
     dest: /home/{{ rails_app_user }}/.pgpass
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    mode: 0600
+    mode: '0600'
   tags:
     - security
 

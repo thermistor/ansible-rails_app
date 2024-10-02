@@ -6,4 +6,4 @@
     dest: "{{ rails_app_dir }}/.env"
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    mode: 0400
+    mode: '0400'

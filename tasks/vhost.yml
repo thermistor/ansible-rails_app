@@ -5,9 +5,10 @@
   when: rails_app_enable_https
 
 - name: Install the vhost for {{ rails_app_shortname }}
-  template: src=vhost.j2
-            dest=/etc/nginx/sites-available/{{ rails_app_site }}
-            mode=0644
+  template:
+    src: vhost.j2
+    dest: /etc/nginx/sites-available/{{ rails_app_site }}
+    mode: '0644'
   notify:
     - restart nginx
 

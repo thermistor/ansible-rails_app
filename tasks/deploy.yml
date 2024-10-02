@@ -11,7 +11,7 @@
     state: directory
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    mode: 0755
+    mode: '0755'
   when: not deploy.stat.exists
 
 # NOTE: disable sudo here so that ssh-agent forwarding to github will work,
