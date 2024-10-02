@@ -1,8 +1,9 @@
 server {
 
 {% if rails_app_enable_https %}
-  listen 443 ssl http2;
-  listen [::]:443 ssl http2;
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  http2 on;
 
   server_name {{ rails_app_site }} {{ rails_app_site_aliases|join(' ') }};
 
