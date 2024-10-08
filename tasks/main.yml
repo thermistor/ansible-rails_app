@@ -1,43 +1,45 @@
 ---
 
 - name: Install package dependencies for {{ rails_app_shortname }}
-  apt:
+  ansible.builtin.apt:
     name: "{{ rails_app_pkg_dependencies }}"
     state: present
 
-- import_tasks: rails_app_user.yml
+- name: Import user configuration tasks
+  ansible.builtin.import_tasks: rails_app_user.yml
   tags:
     - rails_app_user
 
-- import_tasks: deploy.yml
+- name: Import deployment tasks
+  ansible.builtin.import_tasks: deploy.yml
   tags:
     - deploy
 
-- import_tasks: vhost.yml
+- name: Import nginx vhost tasks
+  ansible.builtin.import_tasks: vhost.yml
   tags:
     - vhost
 
-- import_tasks: vhost_redirect.yml
+- name: Import nginx vhost redirect tasks
+  ansible.builtin.import_tasks: vhost_redirect.yml
   when: rails_app_vhost_redirect
   tags:
     - vhost
 
-- import_tasks: configure.yml
+- name: Import rails app configuration tasks
+  ansible.builtin.import_tasks: configure.yml
   tags:
     - security
     - envvars
 
-- import_tasks: postgresql.yml
+- name: Import postgres tasks
+  ansible.builtin.import_tasks: postgresql.yml
   tags:
     - postgres
   when: rails_app_db_adapter == 'postgresql'
 
-- import_tasks: mysql.yml
-  tags:
-    - mysql
-  when: rails_app_db_adapter == 'mysql'
-
-- import_tasks: logrotate.yml
+- name: Import logrotate tasks
+  ansible.builtin.import_tasks: logrotate.yml
   tags:
     - logs
   when: rails_app_log_rotation

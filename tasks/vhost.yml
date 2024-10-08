@@ -1,20 +1,23 @@
 ---
 
 - name: Generate the dhparam.pem file if not present
-  command: openssl dhparam -out /etc/ssl/certs/dhparam.pem 4096 creates=/etc/ssl/certs/dhparam.pem
+  ansible.builtin.command:
+    cmd: openssl dhparam -out /etc/ssl/certs/dhparam.pem 4096
+    creates: /etc/ssl/certs/dhparam.pem
   when: rails_app_enable_https
 
 - name: Install the vhost for {{ rails_app_shortname }}
-  template:
+  ansible.builtin.template:
     src: vhost.j2
     dest: /etc/nginx/sites-available/{{ rails_app_site }}
     mode: '0644'
   notify:
-    - restart nginx
+    - Restart nginx
 
-- name: Enable the {{ rails_app_site }} virtual host
-  file: path=/etc/nginx/sites-enabled/{{ rails_app_site }}
-        src=/etc/nginx/sites-available/{{ rails_app_site }}
-        state=link
+- name: Enable the virtual host for {{ rails_app_site }}
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/{{ rails_app_site }}
+    src: /etc/nginx/sites-available/{{ rails_app_site }}
+    state: link
   notify:
-    - restart nginx
+    - Restart nginx

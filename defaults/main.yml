@@ -20,21 +20,21 @@ rails_app_canonical_site: "{{ rails_app_env ~ '.' ~ rails_app_production_site }}
 rails_app_site: "{{ rails_app_production_site if rails_app_env == 'production' else rails_app_canonical_site }}"
 rails_app_site_aliases:
   - "www.{{  rails_app_site }}"
-rails_app_enable_https: False
+rails_app_enable_https: false
 
 rails_app_ssl_cert: /etc/nginx/certs/{{ inventory_hostname }}.cer
 rails_app_ssl_cert_key: /etc/nginx/private/{{ inventory_hostname }}.key
 rails_app_ssl_cert_ca: /etc/nginx/certs/ca.cer
 
-rails_app_force_ssl_enabled: False
+rails_app_force_ssl_enabled: false
 rails_app_vhost_custom: ''
 rails_app_vhost_acao_header: ~
-rails_app_vhost_redirect: True
+rails_app_vhost_redirect: true
 rails_app_client_max_body_size: 20m
 
-rails_app_load_balanced: False
-rails_app_vhost_lbhealth_endpoint: False
-rails_app_vhost_redirect_lbhealth_endpoint: False
+rails_app_load_balanced: false
+rails_app_vhost_lbhealth_endpoint: false
+rails_app_vhost_redirect_lbhealth_endpoint: false
 
 rails_app_shortname: sample_app
 rails_app_base_dir: /srv/www/{{ rails_app_production_site }}
@@ -42,12 +42,12 @@ rails_app_dir: "{{ rails_app_base_dir }}/{{ rails_app_shortname }}"
 
 rails_app_user: "{{ rails_app_shortname }}"
 
-rails_app_log_rotation: True
+rails_app_log_rotation: true
 rails_app_applog_logrotate_rotations: 50
 
-rails_app_install_irbrc: True
+rails_app_install_irbrc: true
 
-rails_app_db_provision: False
+rails_app_db_provision: false
 rails_app_db_adapter: postgresql
 rails_app_pg_extensions: []
 rails_app_db_socket: null
@@ -58,5 +58,5 @@ rails_app_db_user: "{{ rails_app_user }}"
 rails_app_db_pool: 5
 
 # TODO: move these out
-rails_app_db_enable_pgbouncer: False
+rails_app_db_enable_pgbouncer: false
 rails_app_postgresql_version: 12

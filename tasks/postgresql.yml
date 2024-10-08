@@ -1,38 +1,38 @@
 ---
 
 - name: Add python3-psycopg2 package to be able to setup postgresql_user
-  apt:
+  ansible.builtin.apt:
     name: python3-psycopg2
     state: present
 
-- name: Setup postgresql user for the {{ rails_app_shortname }} rails app
-  postgresql_user:
+- name: Setup postgresql user for the rails app {{ rails_app_shortname }}
+  community.postgresql.postgresql_user:
     name: "{{ rails_app_db_user }}"
     password: "{{ rails_app_db_encrypted_password }}"
     role_attr_flags: CREATEDB,NOSUPERUSER
-  become: yes
+  become: true
   become_user: postgres
   when: rails_app_db_provision
 
 - name: Create database for app
-  postgresql_db:
+  community.postgresql.postgresql_db:
     name: "{{ rails_app_db_name }}"
     owner: "{{ rails_app_db_user }}"
-  become: yes
+  become: true
   become_user: postgres
   when: rails_app_db_provision
 
 - name: Install required extensions as local postgres user
-  postgresql_ext:
+  community.postgresql.postgresql_ext:
     name: "{{ item }}"
     db: "{{ rails_app_db_name }}"
-  become: yes
+  become: true
   become_user: postgres
   with_items: "{{ rails_app_pg_extensions }}"
   when: rails_app_db_provision
 
 - name: Install required extensions with remote connection params
-  postgresql_ext:
+  community.postgresql.postgresql_ext:
     name: "{{ item }}"
     login_user: "{{ rails_app_db_user }}"
     login_host: "{{ rails_app_db_host }}"
@@ -42,7 +42,7 @@
   when: not rails_app_db_provision
 
 - name: Write the database.yml
-  template:
+  ansible.builtin.template:
     src: database.postgresql.yml.j2
     dest: "{{ rails_app_dir }}/config/database.yml"
     owner: "{{ rails_app_user }}"
@@ -52,7 +52,7 @@
     - security
 
 - name: Setup the .pgpass file for rails_app_db_user
-  template:
+  ansible.builtin.template:
     src: pgpass.j2
     dest: /home/{{ rails_app_user }}/.pgpass
     owner: "{{ rails_app_user }}"
@@ -62,10 +62,10 @@
     - security
 
 - name: If using unix sockets ensure app user can connect through pgbouncer to a unix socket
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: /etc/postgresql/{{ rails_app_postgresql_version }}/main/pg_hba.conf
     line: 'local   {{ rails_app_db_name }}       {{ rails_app_db_user }}                                     trust'
     insertafter: '# "local" is for Unix domain socket connections only'
   when: rails_app_db_enable_pgbouncer and rails_app_db_socket
   notify:
-    - restart postgres services
+    - Restart postgres

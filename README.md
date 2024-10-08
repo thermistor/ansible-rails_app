@@ -2,6 +2,10 @@
 
 An ansible galaxy role for configuring a rails app.
 
+## Tags
+
+`vhost` - Redeploy the vhost config and restart nginx
+
 ## Caveats
 
 - it's opinionated

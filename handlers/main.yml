@@ -1,13 +1,18 @@
 ---
+- name: Restart nginx
+  ansible.builtin.service:
+    name: nginx
+    state: restarted
 
-- name: restart nginx
-  service: name=nginx state=restarted
-
-- name: restart postgres
-  service: name=postgresql state=restarted
+- name: Restart postgres
+  ansible.builtin.service:
+    name: postgresql
+    state: restarted
   listen: 'restart postgres services'
 
-- name: restart pgbouncer
-  service: name=pgbouncer state=restarted
+- name: Restart pgbouncer
+  ansible.builtin.service:
+    name: pgbouncer
+    state: restarted
   when: rails_app_db_enable_pgbouncer|bool
   listen: 'restart postgres services'

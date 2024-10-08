@@ -1,12 +1,12 @@
 ---
 
 - name: Check if app already deployed
-  stat:
+  ansible.builtin.stat:
     path: "{{ rails_app_dir }}/Gemfile"
   register: deploy
 
-- name: Ensure the base directory {{ rails_app_base_dir }} exists
-  file:
+- name: Ensure the base directory exists {{ rails_app_base_dir }}
+  ansible.builtin.file:
     path: "{{ rails_app_base_dir }}"
     state: directory
     owner: "{{ rails_app_user }}"
@@ -17,33 +17,38 @@
 # NOTE: disable sudo here so that ssh-agent forwarding to github will work,
 #       be sure to have local .ssh/config setup with 'ForwardAgent yes' for each host
 - name: Clone the github repo
-  become: no
-  git: repo={{ rails_app_git_repo }}
-       dest={{ rails_app_shortname }}
-       version={{ rails_app_git_branch }}
-       accept_hostkey=yes
+  become: false
+  ansible.builtin.git:
+    repo: "{{ rails_app_git_repo }}"
+    dest: "{{ rails_app_shortname }}"
+    version: "{{ rails_app_git_branch }}"
+    accept_hostkey: true
   when: not deploy.stat.exists
 
 - name: Move the repo into place as the deployment
-  command: mv -fT {{ rails_app_shortname }} {{ rails_app_dir }}
+  ansible.builtin.command:
+    cmd: mv -fT {{ rails_app_shortname }} {{ rails_app_dir }}
   when: not deploy.stat.exists
 
 - name: Fix the deployed code ownership
-  file:
+  ansible.builtin.file:
     dest: "{{ rails_app_dir }}"
     state: directory
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
-    recurse: yes
+    recurse: true
   when: not deploy.stat.exists
 
 - name: Make a symlink to current to fake out capistrano-git_deploy
-  file:
+  ansible.builtin.file:
     src: "{{ rails_app_dir }}"
     path: "{{ rails_app_base_dir }}/current"
     state: link
   when: not deploy.stat.exists
 
-- name: make a symlink for convenience
-  file: src={{ rails_app_dir }} path=/home/{{ rails_app_user }}/{{ rails_app_env }} state=link
+- name: Make a symlink for convenience
+  ansible.builtin.file:
+    src: "{{ rails_app_dir }}"
+    path: /home/{{ rails_app_user }}/{{ rails_app_env }}
+    state: link
   when: not deploy.stat.exists

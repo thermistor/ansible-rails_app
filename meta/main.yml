@@ -7,7 +7,7 @@ galaxy_info:
   company: Netsign
   license: MIT
 
-  min_ansible_version: 1.2
+  min_ansible_version: '2.16'
 
   # Optionally specify the branch Galaxy will use when accessing the GitHub
   # repo for this role. During role install, if no tags are available,
@@ -15,13 +15,12 @@ galaxy_info:
   # this branch. If travis integration is cofigured, only notification for this
   # branch will be accepted. Otherwise, in all cases, the repo's default branch
   # (usually master) will be used.
-  #github_branch:
+  # github_branch:
 
   platforms:
-  - name: Ubuntu
-    versions:
-    - trusty
-    - xenial
+    - name: Ubuntu
+      versions:
+        - jammy
 
   galaxy_tags:
     - rails
