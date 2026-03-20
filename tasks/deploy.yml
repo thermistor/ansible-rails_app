@@ -28,7 +28,7 @@
 - name: Move the repo into place as the deployment
   ansible.builtin.command:
     cmd: mv -fT {{ rails_app_shortname }} {{ rails_app_dir }}
-  when: not deploy.stat.exists
+    creates: "{{ rails_app_dir }}"
 
 - name: Fix the deployed code ownership
   ansible.builtin.file:
