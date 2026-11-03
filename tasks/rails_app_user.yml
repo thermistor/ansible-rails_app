@@ -29,11 +29,18 @@
     dest: ~{{ rails_app_user }}/.ssh/known_hosts
     create: true
     state: present
-    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+    # newer ssh-keyscan also prints a "# github.com:22 SSH-2.0-..." comment line, keep only the key
+    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') | split('\n') | select('match', '^github\\.com ') | first }}"
     regexp: "^github\\.com"
     owner: "{{ rails_app_user }}"
     group: "{{ rails_app_user }}"
     mode: '0600'
+
+- name: Remove ssh-keyscan comment lines added by earlier versions of the task above
+  ansible.builtin.lineinfile:
+    dest: ~{{ rails_app_user }}/.ssh/known_hosts
+    regexp: "^# github\\.com:22 "
+    state: absent
 
 - name: Add .gitconfig for {{ rails_app_user }}
   ansible.builtin.copy:
