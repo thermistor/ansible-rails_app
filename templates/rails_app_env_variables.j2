@@ -1,4 +1,4 @@
-# Last updated by ansible on {{ template_run_date }}
+# {{ ansible_managed }}
 {% for key, value in rails_app_env_variables|dictsort %}
 {{ key }}={{ value }}
 {% endfor %}
