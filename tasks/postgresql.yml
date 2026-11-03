@@ -25,7 +25,7 @@
 - name: Install required extensions as local postgres user
   community.postgresql.postgresql_ext:
     name: "{{ item }}"
-    db: "{{ rails_app_db_name }}"
+    login_db: "{{ rails_app_db_name }}"
   become: true
   become_user: postgres
   with_items: "{{ rails_app_pg_extensions }}"
@@ -37,7 +37,7 @@
     login_user: "{{ rails_app_db_user }}"
     login_host: "{{ rails_app_db_host }}"
     login_password: "{{ rails_app_db_password }}"
-    db: "{{ rails_app_db_name }}"
+    login_db: "{{ rails_app_db_name }}"
   with_items: "{{ rails_app_pg_extensions }}"
   when: not rails_app_db_provision
 
